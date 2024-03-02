@@ -15,44 +15,51 @@ import seleniumtestngframeworkdesign.abstractcomponents.AbstractComponent;
 import seleniumtestngframeworkdesign.pageobjects.LoginPage;
 
 public class BaseTest {
-	WebDriver driver;
+	public WebDriver driver;
 	public LoginPage loginPage;
-	
+	public String projectDir = System.getProperty("user.dir");
+
 	public WebDriver initializeDriver() throws IOException {
-		
-		Properties prop = new Properties();
-		FileInputStream fis = new FileInputStream(System.getProperty("user.dir")+"\\src\\test\\java\\seleniumtestngframework\\resources\\GlobalData.properties");
-		prop.load(fis);
-		String browserName = System.getProperty("browser")!= null ? System.getProperty("browser"): prop.getProperty("browser");
-		
-		
+
+		String browserName = System.getProperty("browser") != null ? System.getProperty("browser")
+				: getPropertyByName("browser");
+
 		System.out.println(System.getProperty("user.dir"));
-		
-		if(browserName.equalsIgnoreCase("chrome")) {
+
+		if (browserName.equalsIgnoreCase("chrome")) {
 			driver = new ChromeDriver();
-		} else if(browserName.equalsIgnoreCase("firefox")) {
+		} else if (browserName.equalsIgnoreCase("firefox")) {
 			driver = new FirefoxDriver();
-		}else if(browserName.equalsIgnoreCase("edge")) {
+		} else if (browserName.equalsIgnoreCase("edge")) {
 			driver = new EdgeDriver();
 		}
-		
-		AbstractComponent abc = new AbstractComponent(driver);
-		abc.waitImplicitly(10);
+
+		AbstractComponent abstractComponent = new AbstractComponent(driver);
+		abstractComponent.waitImplicitly(10);
 		driver.manage().window().maximize();
-		
+
 		return driver;
 	}
-	
+
 	@BeforeMethod
 	public void lauchApplication() throws IOException {
 		driver = initializeDriver();
 		loginPage = new LoginPage(driver);
 		loginPage.goTo();
 	}
-	
+
 	@AfterMethod
 	public void closeDriver() {
 		driver.quit();
+	}
+
+	public String getPropertyByName(String propertyName) throws IOException {
+		Properties prop = new Properties();
+		FileInputStream fis = new FileInputStream(
+				projectDir + "\\src\\test\\java\\seleniumtestngframework\\resources\\GlobalData.properties");
+		prop.load(fis);
+		return prop.getProperty(propertyName);
+
 	}
 
 }

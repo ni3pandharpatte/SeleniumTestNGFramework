@@ -3,12 +3,14 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="seleniumtestngframework.tests.ErrorMessageValidations">
+      <class name="seleniumtestngframework.tests.LoginTests">
         <methods>
           <include name="lauchApplication"/>
-          <include name="validateLoginErrorMessage"/>
+          <include name="validateLoginButtonStyleUsingImage"/>
+          <include name="closeDriver"/>
+          <include name="captureLoginButtonImage"/>
         </methods>
-      </class> <!-- seleniumtestngframework.tests.ErrorMessageValidations -->
+      </class> <!-- seleniumtestngframework.tests.LoginTests -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
